@@ -1,2 +1,2 @@
-let one = document.querySelector('.keyboard')
-console.log(one)
+const a = 10;
+const b = a + 2;
