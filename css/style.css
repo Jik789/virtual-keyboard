@@ -1,0 +1,93 @@
+@charset "UTF-8";
+/* Обнуление стилей */
+*,
+::before,
+::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+main {
+  position: relative;
+}
+
+textarea {
+  border: 2px solid black;
+  padding: 10px;
+  resize: none;
+}
+
+/* Общие и технические классы */
+h1 {
+  color: #F1CDB3;
+  font-size: 32px;
+  line-height: 35.2px;
+  letter-spacing: 0.06em;
+}
+
+h2 {
+  color: #545454;
+  font-size: 44px;
+  line-height: 57px;
+}
+
+h3 {
+  color: #545454;
+  font-size: 35px;
+  line-height: 45.5px;
+}
+
+.enter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0 auto;
+  padding: 15px 0;
+  width: 1000px;
+}
+
+.keyboard {
+  margin: 0 auto;
+  width: 1000px;
+  height: 400px;
+  background-color: antiquewhite;
+}
