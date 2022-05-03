@@ -87,7 +87,68 @@ h3 {
 
 .keyboard {
   margin: 0 auto;
-  width: 1000px;
-  height: 400px;
+  padding: 10px;
+  width: 845px;
+  height: 300px;
   background-color: antiquewhite;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 5px;
+}
+
+.k-key {
+  width: 50px;
+  height: 50px;
+  border: 2px solid black;
+  padding: 3px;
+  background-color: white;
+}
+
+.k-key:active {
+  background-color: rebeccapurple;
+}
+
+.Backspace {
+  width: 110px;
+}
+
+.Tab {
+  background-color: #e9e9e9;
+  width: 80px;
+}
+
+.Enter {
+  background-color: #e9e9e9;
+  width: 80px;
+}
+
+.Caps {
+  background-color: #e9e9e9;
+  width: 110px;
+}
+
+.Shift {
+  background-color: #e9e9e9;
+  width: 110px;
+}
+
+.Alt {
+  background-color: #e9e9e9;
+  width: 80px;
+}
+
+.Space {
+  background-color: #e9e9e9;
+  width: 435px;
+}
+
+.Up, .Left, .Down, .Right {
+  background-color: #e9e9e9;
+}
+
+.Ctrl {
+  background-color: #e9e9e9;
 }
