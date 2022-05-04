@@ -1,10 +1,8 @@
 import buttons from './buttons.js';
 const arrKey = buttons.en; // Массив объектов с кнопочками
 const arrFunctionButtons = [8, 9, 13, 20, 16, 17, 18, 32, 37, 38, 39, 40]; // Массив спец. символов
-const arrKeyName = []; // Массив всех имен кнопочек
-arrKey.forEach(element => arrKeyName.push(element.key));
-const arrKeyCode = []; // Массив всех кодов кнопочек
-arrKey.forEach(element => arrKeyCode.push(element.keyCode));
+const arrKeyName = arrKey.map(element => element.key); //Массив имен кнопок
+const arrKeyCode = arrKey.map(element => element.keyCode); //Массив кодов кнопок
 
 
 const body = document.querySelector('body');
@@ -54,18 +52,18 @@ function deleteCharFromArea() {
   textarea.textContent = textarea.textContent.slice(0, -1);
 }
 
-//Событие добавления подсветки нажатым клавишам
-document.addEventListener('keydown', (event) => {
+//Функция добавления подсветки нажатым клавишам
+function addActiveClassKeydown(event) {
   if (arrKeyCode.includes(event.keyCode)) {
     deleteActiveClass(allKeyKeyboard); //Очищаем подсветку со всех клавиш
     setTimeout(() => deleteActiveClass(allKeyKeyboard), 250); //Отключаем подсветку по таймингу
     const activeKey = document.querySelector(`[data-code="${event.keyCode}"]`); 
     activeKey.classList.add('active');
   }
-});
+}
 
-//Событие добавления подсветки нажатым клавишам
-document.addEventListener('click', (event) => {
+//Функция добавления подсветки кликнутым клавишам
+function addActiveClassClick(event) {
   const targetKey = Number(event.target.dataset.code)
   if (arrKeyCode.includes(targetKey)) {
     deleteActiveClass(allKeyKeyboard); //Очищаем подсветку со всех клавиш
@@ -73,6 +71,16 @@ document.addEventListener('click', (event) => {
     const activeKey = document.querySelector(`[data-code="${targetKey}"]`); 
     activeKey.classList.add('active');
   }
+}
+
+//Событие нажатия на клавишу
+document.addEventListener('keydown', (event) => {
+  addActiveClassKeydown(event);
+});
+
+//Событие клика на клавишу
+document.addEventListener('click', (event) => {
+  addActiveClassClick(event);
 });
 
 
