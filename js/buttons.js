@@ -61,6 +61,54 @@ const buttons = {
         "keyCode": 9
     },
     {
+        "key": "q",
+        "keyCode": 81
+    },
+    {
+        "key": "w",
+        "keyCode": 87
+    },
+    {
+        "key": "e",
+        "keyCode": 69
+    },
+    {
+        "key": "r",
+        "keyCode": 82
+    },
+    {
+        "key": "t",
+        "keyCode": 84
+    },
+    {
+        "key": "y",
+        "keyCode": 89
+    },
+    {
+        "key": "u",
+        "keyCode": 85
+    },
+    {
+        "key": "i",
+        "keyCode": 73
+    },
+    {
+        "key": "o",
+        "keyCode": 79
+    },
+    {
+        "key": "p",
+        "keyCode": 80
+    },
+    {
+        "key": "[",
+        "keyCode": 219
+    },
+    {
+        "key": "]",
+        "keyCode": 221
+    },
+    {
         "key": "Enter",
         "keyCode": 13
     },
@@ -113,16 +161,16 @@ const buttons = {
         "keyCode": 222
     },
     {
+        "key": "Up",
+        "keyCode": 38
+    },
+    {
         "key": "\\",
         "keyCode": 220
     },
     {
         "key": "Shift",
         "keyCode": 16
-    },
-    {
-        "key": "\\",
-        "keyCode": 226
     },
     {
         "key": "z",
@@ -165,11 +213,19 @@ const buttons = {
         "keyCode": 191
     },
     {
-        "key": "Shift",
-        "keyCode": 16
+        "key": "Left",
+        "keyCode": 37
     },
     {
-        "key": "Control",
+        "key": "Down",
+        "keyCode": 40
+    },
+    {
+        "key": "Right",
+        "keyCode": 39
+    },
+    {
+        "key": "Ctrl",
         "keyCode": 17
     },
     {
@@ -177,17 +233,13 @@ const buttons = {
         "keyCode": 18
     },
     {
-        "key": " ",
+        "key": "Space",
         "keyCode": 32
     },
     {
-        "key": "Alt",
-        "keyCode": 18
+      "key": "Win",
+      "keyCode": 91
     },
-    {
-        "key": "Control",
-        "keyCode": 17
-    }
 ]
 }
 
