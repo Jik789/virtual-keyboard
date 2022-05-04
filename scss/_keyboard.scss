@@ -24,9 +24,6 @@
   border: 2px solid black;
   padding: 3px;
   background-color: white;
-  &:active {
-    background-color: rebeccapurple;
-  }
 }
 
 .Backspace {
@@ -60,7 +57,7 @@
 
 .Space {
   background-color: #e9e9e9;
-  width: 435px;
+  width: 425px;
 }
 
 .Up, .Left, .Down, .Right {
@@ -68,5 +65,10 @@
 }
 
 .Ctrl {
+  width: 110px;
   background-color: #e9e9e9;
+}
+
+.active {
+  background-color: orange;
 }
