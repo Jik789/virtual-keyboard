@@ -107,6 +107,24 @@ h3 {
   background-color: white;
 }
 
+.changelang {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 30px;
+  margin: 25px;
+  font-size: 24px;
+}
+
+.lang-btn {
+  background-color: transparent;
+  padding: 5px;
+  border: solid 2px black;
+}
+
 .Backspace {
   width: 110px;
 }
@@ -148,6 +166,10 @@ h3 {
 .Ctrl {
   width: 110px;
   background-color: #e9e9e9;
+}
+
+.caps-active {
+  background-color: purple;
 }
 
 .active {

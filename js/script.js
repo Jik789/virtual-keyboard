@@ -1,9 +1,9 @@
 import buttons from './buttons.js';
+
 const arrKey = buttons.en; // Массив объектов с кнопочками
 const arrFunctionButtons = [8, 9, 13, 20, 16, 17, 18, 37, 38, 39, 40]; // Массив спец. символов
-const arrKeyName = arrKey.map(element => element.key); //Массив имен кнопок
-const arrKeyCode = arrKey.map(element => element.keyCode); //Массив кодов кнопок
-
+const arrKeyName = arrKey.map((element) => element.key); // Массив имен кнопок
+const arrKeyCode = arrKey.map((element) => element.keyCode); // Массив кодов кнопок
 
 const body = document.querySelector('body');
 // Отрисовка блока с клавиатурой
@@ -22,12 +22,12 @@ body.append(textareaBlock);
 textareaBlock.append(textarea);
 body.append(keyboard);
 
-
-//Отрисовочка нашей клавиатурочки
+// Отрисовочка нашей клавиатурочки
 function init() {
   let out = '';
   for (let i = 0; i < arrKey.length; i += 1) {
-    if (arrFunctionButtons.includes(arrKey[i].keyCode)) { // Проверка на наличие в массиве спец.символов
+    if (arrFunctionButtons.includes(arrKey[i].keyCode)) {
+      // Проверка на наличие в массиве спец.символов
       out += `<button class="k-key ${arrKey[i].key}" data-code="${arrKey[i].keyCode}">${arrKey[i].key}</button>`;
     } else if (arrKey[i].keyCode === 32) { // Проверка на наличие ПРОБЕЛА
       out += `<button class="k-key Space" data-code="${arrKey[i].keyCode}"> </button>`;
@@ -39,7 +39,7 @@ function init() {
 }
 init();
 
-//Важные перменные
+// Важные перменные
 const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
 
 // Функция удаления подсветки клавишь
@@ -49,59 +49,87 @@ function deleteActiveClass(element) {
   }
 }
 
-//Функция удаления символа из текстарии НЕ ПРОВЕРЕНО
+// Функция удаления символа из текстарии
 function deleteCharFromArea() {
   textarea.textContent = textarea.textContent.slice(0, -1);
 }
 
-//Функция добавления подсветки нажатым клавишам
+// Функция удаления символа из текстарии
+function toggleCapsLock() {
+  const caps = document.querySelector('.CapsLock');
+  caps.classList.toggle('caps-active');
+  if (caps.classList.contains('caps-active')) {
+    for (let i = 0; i < arrKey.length; i += 1) {
+      allKeyKeyboard[i].textContent = arrKey[i].keyCaps;
+    }
+  } else {
+    for (let i = 0; i < arrKey.length; i += 1) {
+      allKeyKeyboard[i].textContent = arrKey[i].key;
+    }
+  }
+}
+
+// Функция добавления подсветки нажатым клавишам
 function addActiveClassKeydown(event) {
   if (arrKeyCode.includes(event.keyCode)) {
-    deleteActiveClass(allKeyKeyboard); //Очищаем подсветку со всех клавиш
-    setTimeout(() => deleteActiveClass(allKeyKeyboard), 250); //Отключаем подсветку по таймингу
-    const activeKey = document.querySelector(`[data-code="${event.keyCode}"]`); 
+    deleteActiveClass(allKeyKeyboard); // Очищаем подсветку со всех клавиш
+    setTimeout(() => deleteActiveClass(allKeyKeyboard), 250); // Отключаем подсветку по таймингу
+    const activeKey = document.querySelector(`[data-code="${event.keyCode}"]`);
     activeKey.classList.add('active');
   }
 }
 
-//Функция добавления подсветки кликнутым клавишам
+// Функция добавления подсветки кликнутым клавишам
 function addActiveClassClick(event) {
-  const targetKey = Number(event.target.dataset.code)
+  const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey)) {
-    deleteActiveClass(allKeyKeyboard); //Очищаем подсветку со всех клавиш
-    setTimeout(() => deleteActiveClass(allKeyKeyboard), 250); //Отключаем подсветку по таймингу
-    const activeKey = document.querySelector(`[data-code="${targetKey}"]`); 
+    deleteActiveClass(allKeyKeyboard); // Очищаем подсветку со всех клавиш
+    setTimeout(() => deleteActiveClass(allKeyKeyboard), 250); // Отключаем подсветку по таймингу
+    const activeKey = document.querySelector(`[data-code="${targetKey}"]`);
     activeKey.classList.add('active');
   }
 }
 
-//Функция добавления текста по нажатию клавиши
+// Функция добавления текста по нажатию клавиши
 function addTextareaKeydown(event) {
   if (arrKeyCode.includes(event.keyCode) && !arrFunctionButtons.includes(event.keyCode)) {
-    textarea.textContent += event.key
+    const myKey = document.querySelector(`[data-code="${event.keyCode}"]`);
+    textarea.textContent += myKey.textContent;
   }
 }
 
-//Функция добавления текста по клику на клавишу
+// Функция добавления текста по клику на клавишу
 function addTextareaClick(event) {
-  const targetKey = Number(event.target.dataset.code)
+  const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey) && !arrFunctionButtons.includes(targetKey)) {
-    textarea.textContent += event.target.textContent
+    const myKey = document.querySelector(`[data-code="${targetKey}"]`);
+    textarea.textContent += myKey.textContent;
   }
 }
 
-//Событие нажатия на клавишу
+// Событие нажатия на клавишу
 document.addEventListener('keydown', (event) => {
   addActiveClassKeydown(event);
   addTextareaKeydown(event);
+  if (event.keyCode === 8) { // отслеживаем Бекспейс
+    deleteCharFromArea();
+  }
+  if (event.keyCode === 20) { // отслеживаем Капс
+    toggleCapsLock();
+  }
 });
 
-//Событие клика на клавишу
+// Событие клика на клавишу
 document.addEventListener('click', (event) => {
   addActiveClassClick(event);
   addTextareaClick(event);
+  if (Number(event.target.dataset.code) === 8) {
+    deleteCharFromArea();
+  }
+  if (Number(event.target.dataset.code) === 20) { // отслеживаем Капс
+    toggleCapsLock();
+  }
 });
-
 
 // let arr = [];
 
@@ -112,4 +140,3 @@ document.addEventListener('click', (event) => {
 //   arr.push(obj)
 //   console.log(arr)
 // });
-
