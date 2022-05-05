@@ -1,6 +1,6 @@
 import buttons from './buttons.js';
 const arrKey = buttons.en; // Массив объектов с кнопочками
-const arrFunctionButtons = [8, 9, 13, 20, 16, 17, 18, 32, 37, 38, 39, 40]; // Массив спец. символов
+const arrFunctionButtons = [8, 9, 13, 20, 16, 17, 18, 37, 38, 39, 40]; // Массив спец. символов
 const arrKeyName = arrKey.map(element => element.key); //Массив имен кнопок
 const arrKeyCode = arrKey.map(element => element.keyCode); //Массив кодов кнопок
 
@@ -29,6 +29,8 @@ function init() {
   for (let i = 0; i < arrKey.length; i += 1) {
     if (arrFunctionButtons.includes(arrKey[i].keyCode)) { // Проверка на наличие в массиве спец.символов
       out += `<button class="k-key ${arrKey[i].key}" data-code="${arrKey[i].keyCode}">${arrKey[i].key}</button>`;
+    } else if (arrKey[i].keyCode === 32) { // Проверка на наличие ПРОБЕЛА
+      out += `<button class="k-key Space" data-code="${arrKey[i].keyCode}"> </button>`;
     } else {
       out += `<button class="k-key" data-code="${arrKey[i].keyCode}">${arrKey[i].key}</button>`;
     }
@@ -73,14 +75,31 @@ function addActiveClassClick(event) {
   }
 }
 
+//Функция добавления текста по нажатию клавиши
+function addTextareaKeydown(event) {
+  if (arrKeyCode.includes(event.keyCode) && !arrFunctionButtons.includes(event.keyCode)) {
+    textarea.textContent += event.key
+  }
+}
+
+//Функция добавления текста по клику на клавишу
+function addTextareaClick(event) {
+  const targetKey = Number(event.target.dataset.code)
+  if (arrKeyCode.includes(targetKey) && !arrFunctionButtons.includes(targetKey)) {
+    textarea.textContent += event.target.textContent
+  }
+}
+
 //Событие нажатия на клавишу
 document.addEventListener('keydown', (event) => {
   addActiveClassKeydown(event);
+  addTextareaKeydown(event);
 });
 
 //Событие клика на клавишу
 document.addEventListener('click', (event) => {
   addActiveClassClick(event);
+  addTextareaClick(event);
 });
 
 
