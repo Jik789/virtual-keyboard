@@ -64,9 +64,35 @@ function init() {
 }
 init();
 
-// Функция подсветки выбранного языка
 const lngBlockKey = document.querySelector('.changelang');
-function toggleLng(event) {
+
+// Функция смены языка по нажатию комбинации Ctr+Alt
+function changeLngKeydown(event) {
+  if (arrKey === buttons.ru) {
+    arrKey = buttons.en;
+  } else {
+    arrKey = buttons.ru;
+  }
+  init();
+}
+
+// Функция изменения подсветки выбранного языка по нажатию комбинации Ctr+Alt
+function toggleLngKeydown() {
+  const buttonsLng = document.querySelectorAll('[data-lng]');
+  const buttonsLngRu = document.querySelector('.lang-ru');
+  const buttonsLngEn = document.querySelector('.lang-en');
+
+  if (arrKey === buttons.ru) {
+    buttonsLng.forEach((element) => element.classList.remove('active-lng'));
+    buttonsLngRu.classList.add('active-lng');
+  } else {
+    buttonsLng.forEach((element) => element.classList.remove('active-lng'));
+    buttonsLngEn.classList.add('active-lng');
+  }
+}
+
+// Функция изменения подсветки выбранного языка по клику
+function toggleLngClick(event) {
   const activeButton = event.target;
   const buttonsLng = document.querySelectorAll('[data-lng]');
   if (event.target.dataset.lng === 'ru' || event.target.dataset.lng === 'en') {
@@ -75,17 +101,16 @@ function toggleLng(event) {
   }
 }
 
-// Функция смены языка
-function changeLng() {
-  arrKey = buttons.ru;
+// Функция смены языка по клику мышки
+function changeLngClick() {
+  const activeLngKey = document.querySelector('.lang-en');
+  if (activeLngKey.classList.contains('active-lng')) {
+    arrKey = buttons.en;
+  } else {
+    arrKey = buttons.ru;
+  }
   init();
 }
-
-// Событие выбора языка по клику
-lngBlockKey.addEventListener('click', (event) => {
-  toggleLng(event);
-  changeLng();
-});
 
 // Функция удаления подсветки клавишь
 function deleteActiveClass(element) {
@@ -165,19 +190,30 @@ document.addEventListener('keydown', (event) => {
   if (event.keyCode === 20) { // отслеживаем Капс
     toggleCapsLock();
   }
+  if (event.ctrlKey && event.altKey) { 
+    // отслеживаем переключения языка (у кнопочек под определенным keyCode есть тригеры которые могут иметь true при нажатой кнопке)
+    changeLngKeydown(event);
+    toggleLngKeydown();
+  }
 });
 
 // Событие клика на клавишу
 document.addEventListener('click', (event) => {
   addActiveClassClick(event);
   addTextareaClick(event);
-  if (Number(event.target.dataset.code) === 8) {
+  if (Number(event.target.dataset.code) === 8) { // отслеживаем Бекспейс
     deleteCharFromArea();
   }
   if (Number(event.target.dataset.code) === 20) { // отслеживаем Капс
     toggleCapsLock();
   }
+  if (event.target.dataset.lng === 'ru' || event.target.dataset.lng === 'en') { // отслеживаем переключения языка
+    toggleLngClick(event);
+    changeLngClick();
+  }
 });
+
+
 
 // let arr = [];
 
