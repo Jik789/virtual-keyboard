@@ -175,3 +175,7 @@ h3 {
 .active {
   background-color: orange;
 }
+
+.active-lng {
+  background-color: orchid;
+}
