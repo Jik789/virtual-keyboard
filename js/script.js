@@ -1,6 +1,6 @@
 import buttons from './buttons.js';
 
-const arrKey = buttons.en; // Массив объектов с кнопочками
+let arrKey = buttons.en; // Массив объектов с кнопочками
 const arrFunctionButtons = [8, 9, 13, 20, 16, 17, 18, 37, 38, 39, 40]; // Массив спец. символов
 const arrKeyCode = arrKey.map((element) => element.keyCode); // Массив кодов кнопок
 
@@ -64,9 +64,6 @@ function init() {
 }
 init();
 
-// Важные перменные
-const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
-
 // Функция подсветки выбранного языка
 const lngBlockKey = document.querySelector('.changelang');
 function toggleLng(event) {
@@ -78,9 +75,16 @@ function toggleLng(event) {
   }
 }
 
+// Функция смены языка
+function changeLng() {
+  arrKey = buttons.ru;
+  init();
+}
+
 // Событие выбора языка по клику
 lngBlockKey.addEventListener('click', (event) => {
   toggleLng(event);
+  changeLng();
 });
 
 // Функция удаления подсветки клавишь
@@ -97,6 +101,7 @@ function deleteCharFromArea() {
 
 // Функция удаления символа из текстарии
 function toggleCapsLock() {
+  const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
   const caps = document.querySelector('.CapsLock');
   caps.classList.toggle('caps-active');
   if (caps.classList.contains('caps-active')) {
@@ -112,6 +117,7 @@ function toggleCapsLock() {
 
 // Функция добавления подсветки нажатым клавишам
 function addActiveClassKeydown(event) {
+  const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
   if (arrKeyCode.includes(event.keyCode)) {
     deleteActiveClass(allKeyKeyboard); // Очищаем подсветку со всех клавиш
     setTimeout(() => deleteActiveClass(allKeyKeyboard), 250); // Отключаем подсветку по таймингу
@@ -122,6 +128,7 @@ function addActiveClassKeydown(event) {
 
 // Функция добавления подсветки кликнутым клавишам
 function addActiveClassClick(event) {
+  const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
   const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey)) {
     deleteActiveClass(allKeyKeyboard); // Очищаем подсветку со всех клавиш
