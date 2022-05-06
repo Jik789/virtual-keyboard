@@ -2,7 +2,6 @@ import buttons from './buttons.js';
 
 const arrKey = buttons.en; // Массив объектов с кнопочками
 const arrFunctionButtons = [8, 9, 13, 20, 16, 17, 18, 37, 38, 39, 40]; // Массив спец. символов
-const arrKeyName = arrKey.map((element) => element.key); // Массив имен кнопок
 const arrKeyCode = arrKey.map((element) => element.keyCode); // Массив кодов кнопок
 
 const body = document.querySelector('body');
@@ -23,15 +22,15 @@ function initLngPannel() {
   const lngBlockCreate = document.createElement('div');
   lngBlockCreate.classList.add('changelang');
   body.append(lngBlockCreate);
-  
-  let lngBlock = document.querySelector('.changelang');
+
+  const lngBlock = document.querySelector('.changelang');
   const lngBlockCreateSwich = document.createElement('div');
   const lngBlockCreateRu = document.createElement('button');
   const lngBlockCreateEn = document.createElement('button');
 
-  lngBlockCreateSwich.textContent = 'Language'
-  lngBlockCreateRu .textContent = 'RUS'
-  lngBlockCreateEn.textContent = 'ENG'
+  lngBlockCreateSwich.textContent = 'Language';
+  lngBlockCreateRu.textContent = 'RUS';
+  lngBlockCreateEn.textContent = 'ENG';
 
   lngBlockCreateSwich.className = 'lang-swich';
   lngBlockCreateRu.className = 'lang-btn lang-ru';
@@ -68,19 +67,19 @@ init();
 // Важные перменные
 const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
 
-
-// Событие выбора языка по клику
+// Функция подсветки выбранного языка
 const lngBlockKey = document.querySelector('.changelang');
 function toggleLng(event) {
   const activeButton = event.target;
-  const buttons = document.querySelectorAll('[data-lng]');
+  const buttonsLng = document.querySelectorAll('[data-lng]');
   if (event.target.dataset.lng === 'ru' || event.target.dataset.lng === 'en') {
-    buttons.forEach(element => element.classList.remove('active-lng'));
-    activeButton.classList.add('active-lng')
+    buttonsLng.forEach((element) => element.classList.remove('active-lng'));
+    activeButton.classList.add('active-lng');
   }
 }
 
-document.addEventListener('click', (event) => {
+// Событие выбора языка по клику
+lngBlockKey.addEventListener('click', (event) => {
   toggleLng(event);
 });
 
