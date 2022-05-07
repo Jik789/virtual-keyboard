@@ -15,7 +15,7 @@ const textarea = document.createElement('textarea');
 textareaBlock.classList.add('enter');
 textarea.setAttribute('rows', '10');
 textarea.setAttribute('cols', '100');
-textarea.setAttribute('disabled', 'disabled');
+// textarea.setAttribute('disabled', 'disabled');
 
 // Отрисовочка языковой панельки
 function initLngPannel() {
@@ -28,7 +28,7 @@ function initLngPannel() {
   const lngBlockCreateRu = document.createElement('button');
   const lngBlockCreateEn = document.createElement('button');
 
-  lngBlockCreateSwich.textContent = 'Language';
+  lngBlockCreateSwich.textContent = 'Переключение языка Ctrl+Alt (или кнопочки правее)';
   lngBlockCreateRu.textContent = 'RUS';
   lngBlockCreateEn.textContent = 'ENG';
 
@@ -67,7 +67,7 @@ init();
 const lngBlockKey = document.querySelector('.changelang');
 
 // Функция смены языка по нажатию комбинации Ctr+Alt
-function changeLngKeydown(event) {
+function changeLngKeydown() {
   if (arrKey === buttons.ru) {
     arrKey = buttons.en;
   } else {
@@ -121,7 +121,7 @@ function deleteActiveClass(element) {
 
 // Функция удаления символа из текстарии
 function deleteCharFromArea() {
-  textarea.textContent = textarea.textContent.slice(0, -1);
+  textarea.value = textarea.value.slice(0, -1);
 }
 
 // Функция удаления символа из текстарии
@@ -167,8 +167,15 @@ function addActiveClassClick(event) {
 function addTextareaKeydown(event) {
   if (arrKeyCode.includes(event.keyCode) && !arrFunctionButtons.includes(event.keyCode)) {
     const myKey = document.querySelector(`[data-code="${event.keyCode}"]`);
-    textarea.textContent += myKey.textContent;
+    textarea.value += myKey.textContent;
   }
+  if (event.keyCode === 9) {  
+    textarea.value += "\t"
+  }
+  if (event.keyCode === 13) {
+    textarea.value += "\n"
+  }
+  textarea.focus()
 }
 
 // Функция добавления текста по клику на клавишу
@@ -176,12 +183,20 @@ function addTextareaClick(event) {
   const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey) && !arrFunctionButtons.includes(targetKey)) {
     const myKey = document.querySelector(`[data-code="${targetKey}"]`);
-    textarea.textContent += myKey.textContent;
+    textarea.value += myKey.textContent;
   }
+  if (targetKey === 9) {  
+    textarea.value += "\t"
+  }
+  if (targetKey === 13) {
+    textarea.value += "\n"
+  }
+  textarea.focus()
 }
 
 // Событие нажатия на клавишу
 document.addEventListener('keydown', (event) => {
+  event.preventDefault();
   addActiveClassKeydown(event);
   addTextareaKeydown(event);
   if (event.keyCode === 8) { // отслеживаем Бекспейс
@@ -192,13 +207,14 @@ document.addEventListener('keydown', (event) => {
   }
   if (event.ctrlKey && event.altKey) { 
     // отслеживаем переключения языка (у кнопочек под определенным keyCode есть тригеры которые могут иметь true при нажатой кнопке)
-    changeLngKeydown(event);
+    changeLngKeydown();
     toggleLngKeydown();
   }
 });
 
 // Событие клика на клавишу
 document.addEventListener('click', (event) => {
+  event.preventDefault();
   addActiveClassClick(event);
   addTextareaClick(event);
   if (Number(event.target.dataset.code) === 8) { // отслеживаем Бекспейс
@@ -211,9 +227,33 @@ document.addEventListener('click', (event) => {
     toggleLngClick(event);
     changeLngClick();
   }
+  setLocalStorage()
 });
 
+//Функция срхранения выбранного языка
+function setLocalStorage() {
+  if (arrKey === buttons.en) {
+    localStorage.setItem('lng', 'en');
+  }
+  else {
+    localStorage.setItem('lng', 'ru');
+  }
+}
 
+//Функция подгрузки выбранного языка при загрузке страницы
+function getLocalStorage() {
+  let chooseLng = localStorage.getItem('lng');
+  if (chooseLng !== null) {
+    if (chooseLng === 'en') {
+      arrKey = buttons.ru;
+    } else {
+      arrKey = buttons.en;
+    }
+    changeLngKeydown()
+    toggleLngKeydown()
+  }
+}
+window.addEventListener('load', getLocalStorage);
 
 // let arr = [];
 
