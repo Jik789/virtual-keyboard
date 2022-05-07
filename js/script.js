@@ -121,7 +121,11 @@ function deleteActiveClass(element) {
 
 // Функция удаления символа из текстарии
 function deleteCharFromArea() {
-  textarea.value = textarea.value.slice(0, -1);
+  if (textarea.selectionStart !== textarea.selectionEnd) {
+    textarea.setRangeText('', textarea.selectionStart, textarea.selectionEnd, 'end')
+  } else if (textarea.selectionStart > 0) {
+    textarea.setRangeText('', textarea.selectionStart-1, textarea.selectionEnd, 'end')
+  }
 }
 
 // Функция удаления символа из текстарии
@@ -195,7 +199,7 @@ function addTextareaClick(event) {
 }
 
 // Событие нажатия на клавишу
-document.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', function(event) {
   event.preventDefault();
   addActiveClassKeydown(event);
   addTextareaKeydown(event);
