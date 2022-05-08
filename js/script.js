@@ -226,7 +226,16 @@ function addTextareaClick(event) {
   const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey) && !arrFunctionButtons.includes(targetKey)) {
     const myKey = document.querySelector(`[data-code="${targetKey}"]`);
-    textarea.setRangeText(myKey.textContent, textarea.selectionStart, textarea.selectionEnd, 'end');
+    if (event.shiftKey) {
+      for (let i = 0; i < arrKey.length; i += 1) {
+        if (arrKey[i].keyCode === targetKey) {
+          console.log(arrKey[i].keyShift)
+          textarea.setRangeText(arrKey[i].keyShift, textarea.selectionStart, textarea.selectionEnd, 'end');
+        }
+      }
+    } else {
+      textarea.setRangeText(myKey.textContent, textarea.selectionStart, textarea.selectionEnd, 'end');
+    }
   }
   if (targetKey === 9) {
     textarea.value += '\t';
@@ -234,7 +243,6 @@ function addTextareaClick(event) {
   if (targetKey === 13) {
     textarea.value += '\n';
   }
-  textarea.focus();
 }
 
 // Функция срхранения выбранного языка
@@ -264,6 +272,7 @@ document.addEventListener('keydown', (event) => {
     toggleLngKeydown();
   }
   if (event.shiftKey) {
+    
     activeShiftkey();
   }
 });
