@@ -229,7 +229,6 @@ function addTextareaClick(event) {
     if (event.shiftKey) {
       for (let i = 0; i < arrKey.length; i += 1) {
         if (arrKey[i].keyCode === targetKey) {
-          console.log(arrKey[i].keyShift)
           textarea.setRangeText(arrKey[i].keyShift, textarea.selectionStart, textarea.selectionEnd, 'end');
         }
       }
@@ -272,7 +271,6 @@ document.addEventListener('keydown', (event) => {
     toggleLngKeydown();
   }
   if (event.shiftKey) {
-    
     activeShiftkey();
   }
 });
@@ -312,7 +310,7 @@ document.addEventListener('mousedown', (event) => {
 });
 
 // Событие клика на клавишу
-document.addEventListener('mouseup', (event) => {
+document.addEventListener('mouseup', () => {
   disableShiftkey();
 });
 
