@@ -295,6 +295,18 @@ document.addEventListener('click', (event) => {
   setLocalStorage();
 });
 
+// Событие клика на клавишу
+document.addEventListener('mousedown', (event) => {
+  if (Number(event.target.dataset.code) === 16) { // отслеживаем Бекспейс
+    activeShiftkey();
+  }
+});
+
+// Событие клика на клавишу
+document.addEventListener('mouseup', (event) => {
+  disableShiftkey();
+});
+
 // Функция подгрузки выбранного языка при загрузке страницы
 function getLocalStorage() {
   const chooseLng = localStorage.getItem('lng');
