@@ -64,8 +64,6 @@ function init() {
 }
 init();
 
-const lngBlockKey = document.querySelector('.changelang');
-
 // Функция смены языка по нажатию комбинации Ctr+Alt
 function changeLngKeydown() {
   if (arrKey === buttons.ru) {
@@ -74,6 +72,21 @@ function changeLngKeydown() {
     arrKey = buttons.ru;
   }
   init();
+}
+
+// Функция смены языка по нажатию комбинации Ctr+Alt
+function addActiveColorCtrlAlt(event) {
+  // event.ctrlKey && event.altKey
+  const ctrlKey = document.querySelector(`[data-code="${17}"]`);
+  const altKey = document.querySelector(`[data-code="${18}"]`);
+  if (event.ctrlKey) {
+    ctrlKey.classList.add('active-lng');
+  } else if (event.altKey) {
+    altKey.classList.add('active-lng');
+  } else {
+    ctrlKey.classList.remove('active-lng');
+    altKey.classList.remove('active-lng');
+  }
 }
 
 // Функция изменения подсветки выбранного языка по нажатию комбинации Ctr+Alt
@@ -122,9 +135,9 @@ function deleteActiveClass(element) {
 // Функция удаления символа из текстарии
 function deleteCharFromArea() {
   if (textarea.selectionStart !== textarea.selectionEnd) {
-    textarea.setRangeText('', textarea.selectionStart, textarea.selectionEnd, 'end')
+    textarea.setRangeText('', textarea.selectionStart, textarea.selectionEnd, 'end');
   } else if (textarea.selectionStart > 0) {
-    textarea.setRangeText('', textarea.selectionStart-1, textarea.selectionEnd, 'end')
+    textarea.setRangeText('', textarea.selectionStart - 1, textarea.selectionEnd, 'end');
   }
 }
 
@@ -171,15 +184,15 @@ function addActiveClassClick(event) {
 function addTextareaKeydown(event) {
   if (arrKeyCode.includes(event.keyCode) && !arrFunctionButtons.includes(event.keyCode)) {
     const myKey = document.querySelector(`[data-code="${event.keyCode}"]`);
-    textarea.value += myKey.textContent;
+    textarea.setRangeText(myKey.textContent, textarea.selectionStart, textarea.selectionEnd, 'end');
   }
-  if (event.keyCode === 9) {  
-    textarea.value += "\t"
+  if (event.keyCode === 9) {
+    textarea.value += '\t';
   }
   if (event.keyCode === 13) {
-    textarea.value += "\n"
+    textarea.value += '\n';
   }
-  textarea.focus()
+  textarea.focus();
 }
 
 // Функция добавления текста по клику на клавишу
@@ -187,19 +200,28 @@ function addTextareaClick(event) {
   const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey) && !arrFunctionButtons.includes(targetKey)) {
     const myKey = document.querySelector(`[data-code="${targetKey}"]`);
-    textarea.value += myKey.textContent;
+    textarea.setRangeText(myKey.textContent, textarea.selectionStart, textarea.selectionEnd, 'end');
   }
-  if (targetKey === 9) {  
-    textarea.value += "\t"
+  if (targetKey === 9) {
+    textarea.value += '\t';
   }
   if (targetKey === 13) {
-    textarea.value += "\n"
+    textarea.value += '\n';
   }
-  textarea.focus()
+  textarea.focus();
+}
+
+// Функция срхранения выбранного языка
+function setLocalStorage() {
+  if (arrKey === buttons.en) {
+    localStorage.setItem('lng', 'en');
+  } else {
+    localStorage.setItem('lng', 'ru');
+  }
 }
 
 // Событие нажатия на клавишу
-document.addEventListener('keydown', function(event) {
+document.addEventListener('keydown', (event) => {
   event.preventDefault();
   addActiveClassKeydown(event);
   addTextareaKeydown(event);
@@ -209,8 +231,9 @@ document.addEventListener('keydown', function(event) {
   if (event.keyCode === 20) { // отслеживаем Капс
     toggleCapsLock();
   }
-  if (event.ctrlKey && event.altKey) { 
-    // отслеживаем переключения языка (у кнопочек под определенным keyCode есть тригеры которые могут иметь true при нажатой кнопке)
+  addActiveColorCtrlAlt(event);
+  if (event.ctrlKey && event.altKey) {
+    // у кнопочек под определенным keyCode есть тригеры которые могут иметь true при нажатой кнопке
     changeLngKeydown();
     toggleLngKeydown();
   }
@@ -227,34 +250,25 @@ document.addEventListener('click', (event) => {
   if (Number(event.target.dataset.code) === 20) { // отслеживаем Капс
     toggleCapsLock();
   }
-  if (event.target.dataset.lng === 'ru' || event.target.dataset.lng === 'en') { // отслеживаем переключения языка
+  // отслеживаем переключения языка
+  if (event.target.dataset.lng === 'ru' || event.target.dataset.lng === 'en') {
     toggleLngClick(event);
     changeLngClick();
   }
-  setLocalStorage()
+  setLocalStorage();
 });
 
-//Функция срхранения выбранного языка
-function setLocalStorage() {
-  if (arrKey === buttons.en) {
-    localStorage.setItem('lng', 'en');
-  }
-  else {
-    localStorage.setItem('lng', 'ru');
-  }
-}
-
-//Функция подгрузки выбранного языка при загрузке страницы
+// Функция подгрузки выбранного языка при загрузке страницы
 function getLocalStorage() {
-  let chooseLng = localStorage.getItem('lng');
+  const chooseLng = localStorage.getItem('lng');
   if (chooseLng !== null) {
     if (chooseLng === 'en') {
       arrKey = buttons.ru;
     } else {
       arrKey = buttons.en;
     }
-    changeLngKeydown()
-    toggleLngKeydown()
+    changeLngKeydown();
+    toggleLngKeydown();
   }
 }
 window.addEventListener('load', getLocalStorage);
