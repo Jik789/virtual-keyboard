@@ -15,7 +15,6 @@ const textarea = document.createElement('textarea');
 textareaBlock.classList.add('enter');
 textarea.setAttribute('rows', '10');
 textarea.setAttribute('cols', '100');
-// textarea.setAttribute('disabled', 'disabled');
 
 // Отрисовочка языковой панельки
 function initLngPannel() {
@@ -64,6 +63,14 @@ function init() {
 }
 init();
 
+function initTextInfo() {
+  const textBlockCreate = document.createElement('div');
+  textBlockCreate.classList.add('infotext');
+  body.append(textBlockCreate);
+  textBlockCreate.textContent = 'Клавиатура разработана под Windows. Поведение некоторых кнопок может отличаться от конкретно Ваших.';
+}
+initTextInfo();
+
 // Функция смены языка по нажатию комбинации Ctr+Alt
 function changeLngKeydown() {
   if (arrKey === buttons.ru) {
@@ -76,7 +83,6 @@ function changeLngKeydown() {
 
 // Функция смены языка по нажатию комбинации Ctr+Alt
 function addActiveColorCtrlAlt(event) {
-  // event.ctrlKey && event.altKey
   const ctrlKey = document.querySelector(`[data-code="${17}"]`);
   const altKey = document.querySelector(`[data-code="${18}"]`);
   if (event.ctrlKey) {
@@ -141,7 +147,7 @@ function deleteCharFromArea() {
   }
 }
 
-// Функция удаления символа из текстарии
+// Функция добавления капс лока
 function toggleCapsLock() {
   const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
   const caps = document.querySelector('.CapsLock');
@@ -157,12 +163,32 @@ function toggleCapsLock() {
   }
 }
 
+// Функция добавления Shift
+function activeShiftkey() {
+  const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
+  const shiftlKey = document.querySelector(`[data-code="${16}"]`);
+  shiftlKey.classList.add('active-lng');
+  for (let i = 0; i < arrKey.length; i += 1) {
+    allKeyKeyboard[i].textContent = arrKey[i].keyShift;
+  }
+}
+
+// Функция добавления Shift
+function disableShiftkey() {
+  const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
+  const shiftlKey = document.querySelector(`[data-code="${16}"]`);
+  shiftlKey.classList.remove('active-lng');
+  for (let i = 0; i < arrKey.length; i += 1) {
+    allKeyKeyboard[i].textContent = arrKey[i].key;
+  }
+}
+
 // Функция добавления подсветки нажатым клавишам
 function addActiveClassKeydown(event) {
   const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
   if (arrKeyCode.includes(event.keyCode)) {
     deleteActiveClass(allKeyKeyboard); // Очищаем подсветку со всех клавиш
-    setTimeout(() => deleteActiveClass(allKeyKeyboard), 250); // Отключаем подсветку по таймингу
+    setTimeout(() => deleteActiveClass(allKeyKeyboard), 350); // Отключаем подсветку по таймингу
     const activeKey = document.querySelector(`[data-code="${event.keyCode}"]`);
     activeKey.classList.add('active');
   }
@@ -174,7 +200,7 @@ function addActiveClassClick(event) {
   const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey)) {
     deleteActiveClass(allKeyKeyboard); // Очищаем подсветку со всех клавиш
-    setTimeout(() => deleteActiveClass(allKeyKeyboard), 250); // Отключаем подсветку по таймингу
+    setTimeout(() => deleteActiveClass(allKeyKeyboard), 350); // Отключаем подсветку по таймингу
     const activeKey = document.querySelector(`[data-code="${targetKey}"]`);
     activeKey.classList.add('active');
   }
@@ -237,6 +263,17 @@ document.addEventListener('keydown', (event) => {
     changeLngKeydown();
     toggleLngKeydown();
   }
+  if (event.shiftKey) {
+    activeShiftkey();
+  }
+});
+
+// Событие отпуска нажатия на клавишу
+document.addEventListener('keyup', (event) => {
+  event.preventDefault();
+  if (!event.shiftKey) {
+    disableShiftkey();
+  }
 });
 
 // Событие клика на клавишу
@@ -272,13 +309,3 @@ function getLocalStorage() {
   }
 }
 window.addEventListener('load', getLocalStorage);
-
-// let arr = [];
-
-// document.addEventListener('keydown', (event) => {
-//   let obj = {}
-//   obj.key = event.key
-//   obj.keyCode = event.keyCode
-//   arr.push(obj)
-//   console.log(arr)
-// });
