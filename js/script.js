@@ -233,7 +233,15 @@ function addTextareaClick(event) {
   const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey) && !arrFunctionButtons.includes(targetKey)) {
     const myKey = document.querySelector(`[data-code="${targetKey}"]`);
-    textarea.setRangeText(myKey.textContent, textarea.selectionStart, textarea.selectionEnd, 'end');
+    if (event.shiftKey) {
+      for (let i = 0; i < arrKey.length; i += 1) {
+        if (arrKey[i].keyCode === targetKey) {
+          textarea.setRangeText(arrKey[i].keyShift, textarea.selectionStart, textarea.selectionEnd, 'end');
+        }
+      }
+    } else {
+      textarea.setRangeText(myKey.textContent, textarea.selectionStart, textarea.selectionEnd, 'end');
+    }
   }
   if (targetKey === 9) {
     textarea.value += '\t';
