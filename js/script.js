@@ -173,13 +173,20 @@ function activeShiftkey() {
   }
 }
 
-// Функция добавления Shift
+// Функция удаления Shift
 function disableShiftkey() {
   const allKeyKeyboard = document.querySelectorAll('.k-key'); // Все кнопочки клавиатуры
   const shiftlKey = document.querySelector(`[data-code="${16}"]`);
   shiftlKey.classList.remove('active-lng');
-  for (let i = 0; i < arrKey.length; i += 1) {
-    allKeyKeyboard[i].textContent = arrKey[i].key;
+  const caps = document.querySelector('.CapsLock');
+  if (caps.classList.contains('caps-active')) {
+    for (let i = 0; i < arrKey.length; i += 1) {
+      allKeyKeyboard[i].textContent = arrKey[i].keyCaps;
+    }
+  } else {
+    for (let i = 0; i < arrKey.length; i += 1) {
+      allKeyKeyboard[i].textContent = arrKey[i].key;
+    }
   }
 }
 
@@ -226,15 +233,7 @@ function addTextareaClick(event) {
   const targetKey = Number(event.target.dataset.code);
   if (arrKeyCode.includes(targetKey) && !arrFunctionButtons.includes(targetKey)) {
     const myKey = document.querySelector(`[data-code="${targetKey}"]`);
-    if (event.shiftKey) {
-      for (let i = 0; i < arrKey.length; i += 1) {
-        if (arrKey[i].keyCode === targetKey) {
-          textarea.setRangeText(arrKey[i].keyShift, textarea.selectionStart, textarea.selectionEnd, 'end');
-        }
-      }
-    } else {
-      textarea.setRangeText(myKey.textContent, textarea.selectionStart, textarea.selectionEnd, 'end');
-    }
+    textarea.setRangeText(myKey.textContent, textarea.selectionStart, textarea.selectionEnd, 'end');
   }
   if (targetKey === 9) {
     textarea.value += '\t';
